@@ -17,6 +17,15 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+.el-tabs__item{
+  font-size: 18px;
+  width: 50%;
+  margin-right: 20px;
+}
+.el-tabs__nav{
+    margin-left: auto;
+    margin-right: auto;
+    margin-left: 16px;
 }
 </style>
