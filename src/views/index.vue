@@ -1,11 +1,15 @@
 <template>
     <div>
-        <doupin-header/>
+        <div>
+          <doupin-header/>
+        </div>
         <div class="homepage" id="homepage">
             <doupin-banner/>
             <doupin-menu/>
         </div>
-        <doupin-footer/>
+       <div>
+         <doupin-footer/>
+       </div>
     </div>
 </template>
 <script>

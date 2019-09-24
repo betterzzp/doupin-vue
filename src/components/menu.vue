@@ -4,9 +4,11 @@
           <span  v-for="item in list" :key="item">
                 <el-col :span="8">
                     <div class="grid-content">
+                      <a :href="'/product?keyword='+item.id+''">
                       <div>
                         <img style="height:300px" :src="item.pic">
                       </div>
+                      </a>
                       <div class="product-info">
                         <h5 class="product-title">{{item.name}}</h5>
                         <p class="product-descption">{{item.descption}}</p>

@@ -49,9 +49,9 @@ export default {
 <style scoped>
 #footer {
     width: 100%;
+    display: block;
     background-color: #f9f9f9;
     border-top: 1px solid #f9f9f9;
-    padding-top: 1000px;
     padding-bottom: 45px;
     margin-top: 60px;
     height:120px;
@@ -64,9 +64,11 @@ export default {
     margin-right: auto;
     color: #ababac;
     text-align: center;
+    display: inline-block;
 }
 #footer .footer-left {
     float: left;
+    margin-top: 50px;
 }
 #footer .logo {
     font-size: 26px;
@@ -122,6 +124,7 @@ p {
 }
 #footer .footer-right {
     float: right;
+    margin-top: 50px;
 }
 #footer .footer-kits {
     font-size: 14px;

@@ -6,9 +6,18 @@ export function sendMsg(params) {
     })
 }
 
-export function loginWithValidatecode (params) {
+export function loginwithPassword (params) {
     return request({
-        url:'/user/login/validate',
+        url:'/user/login/loginwithphonenumber',
+        contentT:"",
+        method:'post',
+        data:params
+    })
+}
+
+export function loginwithValidate (params) {
+    return request({
+        url:'/user/login/loginwithvalidatecode',
         contentT:"",
         method:'post',
         data:params

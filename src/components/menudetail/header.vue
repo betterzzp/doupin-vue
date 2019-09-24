@@ -1,37 +1,56 @@
 <template>
     <header id="market-header" class="market-global-header">
+    
     <div class="header-inner">
         <div class="logo">
-            <a href="/"><i class="mui-icon logo"></i></a>
-        </div>
-        <div class="market-user" v-show="!show">
-            <div class="user-people">
-                <el-dropdown>
-                    <div>
-                        <i>
-                            <div class="user-pic" id="header-user-pic">
-                                <img src="https://img3.doubanio.com/icon/user_large.jpg">
-                                <span>个人中心</span>
-                                <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item>我的豆品订单</el-dropdown-item>
-                                <el-dropdown-item>我的购物车</el-dropdown-item>
-                                <el-dropdown-item>我的优惠券</el-dropdown-item>
-                                <el-dropdown-item>收货地址管理</el-dropdown-item>
-                                </el-dropdown-menu>
-                            </div>
-                        </i>
-                    </div>
-                </el-dropdown>
+            <div>
+                <a href="/"><i class="mui-icon logo"></i></a>
             </div>
-        </div>
-        <div class="market-user" v-show="show">
-            <div class="user-people">
-                <div class="user-pic" id="header-user-pic">
-                <el-button type="text" @click="login">注册/登录</el-button>
+            <div class="header-content">
+                <div class="product-name">藏书票帆布袋</div>
+                <div class="product-extra">
+                    <div class="header-price">
+                        <span class="price-item">
+                            <em>¥</em>
+                            <em class="price-num">79</em>
+                            <em>/个</em>
+                        </span>
+                    </div>
+                    <div class="header-order-button selector-buttons">
+                        <div>
+                            <div>
+                                <a class="buy-btn" href="javascript: void(0);">立即购买</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  
+  </div>
+
+  <div class="fixed-header" v-if="shoufixed">
+    <div class="header-inner">
+        <div class="header-content">
+            <div class="product-name">豆瓣读书笔记</div>
+                <div class="header-extra">
+                    <div class="header-tab">
+                        <a class="tab-active">详情</a>
+                        <a class="">参数</a>
+                        <a class="">测评</a>
+                    </div>
+                    <div class="header-order-button selector-buttons">
+                        <div>
+                            <div>
+                                <a class="buy-btn" href="https://market.douban.com/cart/checkout/?sku_id=255713">立即购买</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-  </div>
+    </div>
+
+
   <el-dialog
     :close-on-click-modal=false
     :visible.sync="dialogVisible"
@@ -107,6 +126,7 @@ export default {
       show:true,
       loginwithPasswords:true,
       loginwithValidatecode:true,
+      shoufixed:false,
       phonenumberLogin:{
           phoneNumber:"",
           validatecode:"",
@@ -114,12 +134,16 @@ export default {
       }
     }
   },
+  props:["menudetailinfo"],
 created(){
     var loginToken = getToken()
     if(loginToken!=null&&loginToken!=''){
         this.show = false;
     }
 },
+mounted () {
+    window.addEventListener('scroll', this.handleScroll)
+  },
 
 watch: {
     phonenumberLogin:{//深度监听，可监听到对象、数组的变化
@@ -138,11 +162,18 @@ watch: {
          deep:true
      }
 },
-
   methods:{
       login(){
           this.dialogVisible=true;
       },
+    handleScroll (e) {
+      console.log(document.documentElement.scrollTop);
+      if(document.documentElement.scrollTop >=134){
+        this.shoufixed = true;
+      }else{
+        this.shoufixed = false;
+      }
+    },
       sendMessage(){
           console.log("I WILL ALWAYS LOVE U");
           let phoneNumber = this.phonenumberLogin.phoneNumber
@@ -223,10 +254,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
     z-index: 1;
 }
 #market-header .logo {
-    float: left;
     font-size: 26px;
     color: #44883e;
-    line-height: 100px;
+    text-align: left;
+    margin-top: 32.8px;
 }
 .el-button--text {
     color: #6e6e6e;
@@ -441,5 +472,102 @@ font-size: 12px;
 }
 .el-tabs__item.is-active {
     color: #333;
+}
+.header-content {
+    margin-top: 15px;
+    text-align: left;
+}
+.header-content:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+.product-name{
+    float: left;
+    font-family: Lantinghei SC;
+    font-size: 29px;
+    font-weight: 400;
+    line-height: 1;
+    color: #3e3a39;
+    letter-spacing: 2px;
+}
+.product-extra{
+    float: right;
+}
+.header-price {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 14px;
+    font-weight: 400;
+    color: #dd1944;
+}
+.header-order-button {
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+    width: 120px;
+    height: 36px;
+    line-height: 36px;
+    font-size: 16px;
+    color: #fff;
+    background: #dd1944;
+    text-align: center;
+    margin-left: 10px;
+}
+.price-item {
+    font-family: Lantinghei SC;
+    margin-right: 10px;
+}
+.header-price {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 14px;
+    font-weight: 400;
+    color: #dd1944;
+}
+.header-content .header-price .price-num {
+    font-size: 24px;
+    margin-left: 2px;
+    margin-right: 4px;
+}
+.header-content .header-order-button .buy-btn {
+    font-weight: 300;
+    color: #fff;
+}
+.buy-btn {
+    display: block;
+}
+.header-tab {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 17px;
+    font-weight: 300;
+    color: #3e3a39;
+    margin-right: 33px;
+}
+.header-extra {
+    /* display: inline-block; */
+    float: right;
+}
+.fixed-header {
+    line-height: 52px;
+    position:fixed;
+    top:0px;
+    
+
+    left: 0px;
+    right: 0px;
+    margin-left:auto;
+    margin-right:auto;
+}
+.fixed-header {
+    line-height: 52px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    background: #f9f9f9;
 }
 </style>
