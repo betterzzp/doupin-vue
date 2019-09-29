@@ -7,12 +7,12 @@
                 <a href="/"><i class="mui-icon logo"></i></a>
             </div>
             <div class="header-content">
-                <div class="product-name">藏书票帆布袋</div>
+                <div class="product-name">{{menudetailinfo[0].name}}</div>
                 <div class="product-extra">
                     <div class="header-price">
                         <span class="price-item">
                             <em>¥</em>
-                            <em class="price-num">79</em>
+                            <em class="price-num">{{menudetailinfo[0].price}}</em>
                             <em>/个</em>
                         </span>
                     </div>
@@ -243,6 +243,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
     right: 0;
     top: 0;
     line-height: 42px;
+}
+.header-tab a{
+    padding-right: 15px;
+    font-size: 100%;
 }
 #market-header .header-inner {
     zoom: 1;

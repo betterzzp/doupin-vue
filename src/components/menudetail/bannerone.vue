@@ -1,5 +1,5 @@
 <template>
-<div class="hero" style="background-image: url(&quot;https://img3.doubanio.com/view/market_grip/raw/public/023b7db1e8cb9ed.jpg&quot;); height: 650px;">
+<div class="hero" :style="{backgroundImage:'url('+ menudetailinfo[0].bigpic +')',height:heightz+'px'}">
 </div>
     
 </template>
@@ -12,9 +12,13 @@ export default {
       dialogVisible: false,
       activeName: 'first',
       token:null,
+      heightz:650,
       show:true,
+      activeColor:'red',
+      fontSize:30,
       loginwithPasswords:true,
       loginwithValidatecode:true,
+      backgroundImage:url("'"+menudetailinfo[0].bigpic+"'"),
       phonenumberLogin:{
           phoneNumber:"",
           validatecode:"",
@@ -22,13 +26,9 @@ export default {
       }
     }
   }, 
-  props:["menudetailinfo"],
-  created() {
-    this.getBannerInfo();
-  },  
+  props:["menudetailinfo"], 
 }
 </script>
-
 <style>
 .hero {
     position: relative;

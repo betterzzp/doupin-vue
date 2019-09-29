@@ -13,6 +13,7 @@ import detailone from '@/components/menudetail/detail'
 import doupinFooter from '@/components/footer'
 
 import {getMenuDetails} from '@/api/menudetails'
+import { debug } from 'util';
 
 export default {
   name: 'index',
@@ -20,21 +21,27 @@ export default {
     menuDetailHeader,
     bannerone,
     detailone,
-    doupinFooter
+    doupinFooter,
   },
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
-      menudetailinfo:null
+      menudetailinfo:null,
+      requestUrl:'',
+      menuId:''
     }
   },
   created() {
+    debugger
+      this.requestUrl = window.location.href;
+      let index=this.requestUrl.lastIndexOf("=");
+      this.menuId=this.requestUrl.substring(index+1,this.requestUrl.length);
       this.getMenuDetails();
     },
     methods: {
       getMenuDetails(){
-           debugger
-        getMenuDetails('884e8e77400f4031bdfeab2515b2f94a').then(response => {
+        debugger
+        getMenuDetails(this.menuId).then(response => {
           debugger
           console.log(response);
           this.menudetailinfo = response.data.content;

@@ -1,7 +1,9 @@
 <template>
   <el-carousel :interval="2500" arrow="always" height="420px">
     <el-carousel-item v-for="item in list" :key="item">
+       <a :href="'/product?keyword='+item.id+''">
        <img style="height:420px" :src="item.banner">
+       </a>
     </el-carousel-item>
   </el-carousel>
 </template>
