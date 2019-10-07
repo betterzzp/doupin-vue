@@ -14,5 +14,20 @@ export default new Router({
       path: '/product',
       component: () => import('@/views/menudetail/index')
     }
+    ,
+    {
+      path: '/deal',
+      component: () => import('@/views/rightnowbuy/index')
+    }
+    ,
+    {
+      path: '/pay',
+      component: () => import('@/views/paypage/index')
+    }
+    ,
+    {
+      path: '/shopcar',
+      component: () => import('@/views/shopcar/index')
+    }
   ]
 })

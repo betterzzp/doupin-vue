@@ -48,7 +48,7 @@ export default {
 </script>
 <style>
 .content-wrapper {
-    width: 1100px;
+    /*width: 1100px;*/
     margin: 0 auto;
 }
 .product-image-wrap, .product-video-wrap {

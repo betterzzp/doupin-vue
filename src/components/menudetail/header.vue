@@ -1,6 +1,5 @@
 <template>
     <header id="market-header" class="market-global-header">
-    
     <div class="header-inner">
         <div class="logo">
             <div>
@@ -19,7 +18,7 @@
                     <div class="header-order-button selector-buttons">
                         <div>
                             <div>
-                                <a class="buy-btn" href="javascript: void(0);">立即购买</a>
+                                <a class="buy-btn" @click="buy()">立即购买</a>
                             </div>
                         </div>
                     </div>
@@ -31,17 +30,17 @@
   <div class="fixed-header" v-if="shoufixed">
     <div class="header-inner">
         <div class="header-content">
-            <div class="product-name">豆瓣读书笔记</div>
+            <div class="product-name">{{menudetailinfo[0].name}}</div>
                 <div class="header-extra">
                     <div class="header-tab">
-                        <a class="tab-active">详情</a>
-                        <a class="">参数</a>
-                        <a class="">测评</a>
+                        <a class=""  href="#" @click="srollToElement('detail')">详情</a>
+                        <a class=""  href="#" @click="srollToElement('param')">参数</a>
+                        <a class=""  href="#" @click="srollToElement('measurement')">测评</a>
                     </div>
                     <div class="header-order-button selector-buttons">
                         <div>
                             <div>
-                                <a class="buy-btn" href="https://market.douban.com/cart/checkout/?sku_id=255713">立即购买</a>
+                                <a class="buy-btn" @click="buy()">立即购买</a>
                             </div>
                         </div>
                     </div>
@@ -50,71 +49,51 @@
         </div>
     </div>
 
+    <el-dialog
+        title=""
+        :visible.sync="buyShopDialog"
+        :append-to-body=true
+        width="30%"
+        :before-close="handleClose">
+        <div class="product-hd">
+            <div class="spu-title">{{menudetailinfo[0].name}}</div>
+            <div class="spu-price"><span>{{menudetailinfo[0].price}}</span></div>
+        </div>
+        <div style="display:inline-block">
+            <div class="product-bd" style="float:left;">
+                <div class="cover">
+                    <div class="photo-wrap ratio-100">
+                        <div class="box" :style="'background-image:url('+menudetailinfo[0].pic+';background-size: cover; background-repeat: no-repeat; background-position: center center; background-attachment: scroll;height:200px'">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="float:right;margin-left: 30px; padding-top: 60px;width:78px;">
+                <div class="hd">数量:</div>
+                <el-input-number v-model="num1" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
+            </div>
+        </div>
 
-  <el-dialog
-    :close-on-click-modal=false
-    :visible.sync="dialogVisible"
-    width="340px"
-    :append-to-body=true
-    :before-close="handleClose">
-    <div class = "tab-start">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
-            <el-tab-pane  label="短信登录/注册" name="first">
-                <div class="account-form-tips">请仔细阅读 
-                    <a target="_blank" href="https://accounts.douban.com/passport/agreement">豆瓣使用协议、隐私政策</a>
-                </div>
-                <div class="account-form-raw  phoneNumber" :v-model="phonenumberLogin">
-                    <div class="account-form-field account-form-field-phone">
-                    <span class="icon clear-input hide"></span>
-                    <input type="phone" name="phone" maxlength="13" class="account-form-input"  v-model="phonenumberLogin.phoneNumber"   placeholder="手机号" tabindex="1">
-                    <div class="account-form-field-area-code">
-                        <div class="account-form-field-area-code-label js-choose-district">+86</div>
-                    </div>
-                    </div>
-                </div>
-                <div class="account-form-raw">
-                    <div class="account-form-field account-form-codes">
-                    <input id="code" type="text" name="code" maxlength="6" class="account-form-input"  v-model="phonenumberLogin.validatecode"  placeholder="验证码" tabindex="2" autocomplete="off">
-                    <div class="account-form-field-code">
-                        <a href="javascript:;" @click="sendMessage">获取验证码</a>
-                    </div>
-                    </div>
-                </div>
-                <div>
-                    <span slot="footer" class="dialog-footer">
-                        <el-button type="primary" :disabled="loginwithValidatecode" @click="loginwithValidate">登录豆瓣</el-button>
-                    </span>
-                </div>
-            </el-tab-pane>
-            <el-tab-pane  label="密码登录" name="second">
-                <div class="account-form-raw">
-                    <div class="account-form-field">
-                    <input id="username" name="username" type="text" class="account-form-input"  v-model="phonenumberLogin.phoneNumber" placeholder="手机号" tabindex="1">
-                    <span class="icon clear-input hide"></span>
-                    </div>
-                </div>
-                <div class="account-form-raw">
-                    <div class="account-form-field account-form-codes">
-                    <input id="code" type="text" name="code" maxlength="6" class="account-form-input"  v-model="phonenumberLogin.password" placeholder="密码" tabindex="2" autocomplete="off">
-                    <div class="account-form-field-code">
-                        <a href="javascript:;"></a>
-                    </div>
-                    </div>
-                </div>
-                <div>
-                    <span slot="footer" class="dialog-footer">
-                        <el-button type="primary" :disabled="loginwithPasswords" @click="loginwithPassword">登录豆瓣</el-button>
-                    </span>
-                </div>
-            </el-tab-pane>
-        </el-tabs>
-    </div>
- </el-dialog>
+        <div style="height:20px">
+        </div>
+
+        <div>
+            <span slot="footer" class="dialog-footer">
+               
+                <el-badge style="width:150px;margin-right:20px" :value="12" class="item">
+                        <el-button style="width:150px">购物车</el-button>
+                </el-badge>
+                <el-button style="width:100px" @click="addToShopCar()">加入购物车</el-button>
+                <el-button style="width:120px" type="primary" @click="buyNow()">立即购买</el-button>
+            </span>
+        </div>
+    </el-dialog>
 </header>
 </template>
 <script>
 import {sendMsg,loginwithPassword,loginwithValidate} from '@/api/header'
 import {setToken,getToken} from '@/util/auth'
+import {addToShopCar} from '@/api/shopcar'
 export default {
   name: 'doupinHeader',
   data () {
@@ -124,9 +103,12 @@ export default {
       activeName: 'first',
       token:null,
       show:true,
+      num1: 1,
+      buyShopDialog:false,
       loginwithPasswords:true,
       loginwithValidatecode:true,
       shoufixed:false,
+      showShopDialog:true,
       phonenumberLogin:{
           phoneNumber:"",
           validatecode:"",
@@ -174,13 +156,16 @@ watch: {
         this.shoufixed = false;
       }
     },
-      sendMessage(){
-          console.log("I WILL ALWAYS LOVE U");
-          let phoneNumber = this.phonenumberLogin.phoneNumber
-          sendMsg(phoneNumber).then(response => {
-              console.log("HELLO WORLD");
-        })
-      },
+    srollToElement(param){
+
+    },
+    sendMessage(){
+        console.log("I WILL ALWAYS LOVE U");
+        let phoneNumber = this.phonenumberLogin.phoneNumber
+        sendMsg(phoneNumber).then(response => {
+            console.log("HELLO WORLD");
+    })
+    },
       loginwithPassword(){
           loginwithPassword(this.phonenumberLogin).then(response => {
                if(response.data.code == "200"){
@@ -206,7 +191,31 @@ watch: {
 
                }
         })
-      }
+      },
+      addToShopCar(){
+          let param = 
+              {'goodId':this.menudetailinfo[0].id,
+              'number':this.num1};
+          addToShopCar(param).then(response => {
+            debugger
+            if(response.data.code == "200"){
+                this.$notify({
+                title: '成功',
+                message: '成功加入购物车',
+                type: 'success',
+                duration: 3000
+                });
+            }else{
+
+            }
+          })
+      },
+      buy(){
+          this.buyShopDialog  = true;
+      },
+      buyNow(){
+          window.location.href = '/deal?'+'id='+this.menudetailinfo[0].id+'&&'+'number='+this.num1;
+    }
   }
 }
 </script>
@@ -307,7 +316,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
     color: #FFF;
     background-color: rgba(66,189,86,.5);
     border-color: rgba(66,189,86,.5);
-    width: 300px;
+    width: 280px;
     height: 40px;
 }
 
@@ -573,5 +582,162 @@ font-size: 12px;
     margin-left: auto;
     margin-right: auto;
     background: #f9f9f9;
+}
+.product-hd {
+    margin-bottom: 22px;
+}
+.spu-title {
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 600;
+}
+.spu-price {
+    display: inline-block;
+    padding-top: 5px;
+    padding-left: 30px;
+    font-size: 18px;
+    color: #dd1944;
+}
+.cover {
+    width: 200px;
+    height: 200px;
+}
+.photo-wrap {
+    display: block;
+    text-align: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: #f7f7f7;
+}
+ .box img {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+.hd {
+    font-weight: 500;
+    padding-bottom: 3px;
+    display: block;
+}
+.bd {
+    padding-bottom: 15px;
+}
+ .mui-number-picker {
+    border: none;
+ }
+ .mui-number-picker .disabled.mui-number-picker-button {
+    color: #d8d8d8;
+    cursor: not-allowed;
+}
+.mui-number-picker .mui-number-picker-button {
+    height: 30px;
+    line-height: 30px;
+    background-color: #f9f9f9;
+    color: #ababac;
+    width: 30px;
+    cursor: pointer;
+    color: #3e3a39;
+    font-weight: 700;
+    font-size: 14px;
+}
+.mui-number-picker .mui-number-picker-button, .mui-number-picker .number-content {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.mui-icon {
+    font-family: iconfont!important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.number-content {
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 35px;
+    color: #3e3a39;
+}
+.mui-number-picker input {
+    border: none;
+}
+.mui-number-picker .mui-number-picker-button, .mui-number-picker .number-content {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+
+mui-number-picker .mui-number-picker-button {
+    height: 30px;
+    line-height: 30px;
+    background-color: #f9f9f9;
+    color: #ababac;
+    width: 30px;
+    cursor: pointer;
+    color: #3e3a39;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.mui-number-picker .mui-number-picker-button, .mui-number-picker .number-content {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.mui-icon {
+    font-family: iconfont!important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, body, canvas, caption, center, cite, code, dd, del, details, dfn, div, dl, dt, em, embed, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, iframe, img, ins, kbd, label, legend, li, mark, menu, nav, object, ol, output, p, pre, q, ruby, s, samp, section, small, span, strike, strong, sub, summary, sup, table, tbody, td, tfoot, th, thead, time, tr, tt, u, ul, var, video {
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+}
+
+.mui-number-picker .mui-number-picker-button {
+    height: 30px;
+    line-height: 30px;
+    background-color: #f9f9f9;
+    color: #ababac;
+    width: 30px;
+    cursor: pointer;
+
+    color: #3e3a39;
+    font-weight: 700;
+    font-size: 14px;
+}
+.mui-number-picker .mui-number-picker-button, .mui-number-picker .number-content {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.mui-icon {
+    font-family: iconfont!important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 </style>

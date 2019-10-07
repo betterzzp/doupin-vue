@@ -1,8 +1,9 @@
 <template>
     <div>
-        <menuDetailHeader :menudetailinfo="menudetailinfo"/>
+        <menuDetailHeader :menudetailinfo="menudetailinfo" ref="menuDetailHeader"/>
         <bannerone :menudetailinfo="menudetailinfo"/>
-        <detailone :menudetailinfo="menudetailinfo"/>
+        <detailone :menudetailinfo="menudetailinfo" ref="detailone"/>
+        <shopDialog :showShopDialog="showShopDialog"/>
         <doupinFooter/>
     </div>
 </template>
@@ -11,7 +12,7 @@ import menuDetailHeader from '@/components/menudetail/header'
 import bannerone from '@/components/menudetail/bannerone'
 import detailone from '@/components/menudetail/detail'
 import doupinFooter from '@/components/footer'
-
+import {shopDialog} from '@/components/shopdialog/shopdialog'
 import {getMenuDetails} from '@/api/menudetails'
 import { debug } from 'util';
 
@@ -22,13 +23,15 @@ export default {
     bannerone,
     detailone,
     doupinFooter,
+    shopDialog,
   },
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
       menudetailinfo:null,
       requestUrl:'',
-      menuId:''
+      menuId:'',
+      showShopDialog:true
     }
   },
   created() {
