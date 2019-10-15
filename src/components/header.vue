@@ -13,10 +13,18 @@
                                 <img src="https://img3.doubanio.com/icon/user_large.jpg">
                                 <span>个人中心</span>
                                 <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item>我的豆品订单</el-dropdown-item>
-                                <el-dropdown-item>我的购物车</el-dropdown-item>
-                                <el-dropdown-item>我的优惠券</el-dropdown-item>
-                                <el-dropdown-item>收货地址管理</el-dropdown-item>
+
+                                <el-dropdown-item>
+                                    <a href="">我的豆品订单</a>
+                                </el-dropdown-item>
+
+                                <el-dropdown-item>
+                                    <a href="/shopcar">我的购物车</a>
+                                </el-dropdown-item>
+                
+                                <el-dropdown-item>
+                                    <a href="">收货地址管理</a>
+                                </el-dropdown-item>
                                 </el-dropdown-menu>
                             </div>
                         </i>

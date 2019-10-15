@@ -80,8 +80,8 @@
         <div>
             <span slot="footer" class="dialog-footer">
                
-                <el-badge style="width:150px;margin-right:20px" :value="12" class="item">
-                        <el-button style="width:150px">购物车</el-button>
+                <el-badge style="width:150px;margin-right:20px" :value="shopCarnumber" class="item">
+                        <el-button style="width:150px" @click="navToShopCar()">购物车</el-button>
                 </el-badge>
                 <el-button style="width:100px" @click="addToShopCar()">加入购物车</el-button>
                 <el-button style="width:120px" type="primary" @click="buyNow()">立即购买</el-button>
@@ -116,7 +116,7 @@ export default {
       }
     }
   },
-  props:["menudetailinfo"],
+  props:["menudetailinfo","shopCarnumber"],
 created(){
     var loginToken = getToken()
     if(loginToken!=null&&loginToken!=''){
@@ -179,6 +179,7 @@ watch: {
                }
         })
       },
+
       loginwithValidate(){
           loginwithValidate(this.phonenumberLogin).then(response => {
                if(response.data.code == "200"){
@@ -197,8 +198,9 @@ watch: {
               {'goodId':this.menudetailinfo[0].id,
               'number':this.num1};
           addToShopCar(param).then(response => {
-            debugger
             if(response.data.code == "200"){
+                debugger;
+                this.shopCarnumber = this.shopCarnumber+this.num1;
                 this.$notify({
                 title: '成功',
                 message: '成功加入购物车',
@@ -209,6 +211,10 @@ watch: {
 
             }
           })
+      },
+      navToShopCar(){
+        console.log("I WILL ALWAYS LOVE U");
+        window.location.href = '/shopcar';
       },
       buy(){
           this.buyShopDialog  = true;

@@ -3,65 +3,65 @@
         <div>
             <doupinHeader/>
         </div>
-        <div class="hd  incenter">
-            确认订单信息
-        </div>
-
-        <div class="section">
-
-        </div>
-
-        <div  v-show="false"  class="hd  incenter">
-            您未登录 点此登录 或使用手机号注册下单
-        </div>
-
-        <div class="rightnowbuy">
-            <div>
-                <el-table
-                    :data="menudetailinfo"
-                    border
-                    style="width: 100%">
-                    <el-table-column label="商品图片" width="300">
-                        <template slot-scope="scope"><img style="height:210px" :src="scope.row.pic"></template>
+        <div>
+            <div class="shopCarInfo">
+                <h2 class="textinfo">
+                    购物车
+                </h2>
+            </div>
+            <div class="shopCarInfo">
+                <el-table ref="multipleTable" :data="shopCarInfoList" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
+                    <el-table-column type="selection" width="55">
                     </el-table-column>
 
-                    <el-table-column label="商品名称" width="300"  prop="name">
+                    <el-table-column label="商品名称" width="190">
+                        <template slot-scope="scope">{{ scope.row.goodName }}</template>
                     </el-table-column>
 
-                    <el-table-column
-                        prop="price"
-                        label="单价"
-                        width="200">
+                    <el-table-column  label="商品图片"  width="200">
+                        <template slot-scope="scope"><img style="height:100px" :src="scope.row.goodPic"></template>
                     </el-table-column>
 
-                    <el-table-column
-                        prop="number"
-                        label="数量"
-                        width="200">
+                    <el-table-column  label="单价" style="text-align:center" width="150">
+                        <template slot-scope="scope">
+                            <span class="item-price">
+                                <em>
+                                    <i>¥</i>
+                                </em>
+                                {{ scope.row.price }}
+                            </span>
+                        </template>
                     </el-table-column>
 
-                    <el-table-column
-                        prop="all"
-                        label="小计">
+                    <el-table-column label="商品数量" style="text-align:center" width="250">
+                        <template slot-scope="scope">
+                            <el-input-number v-model="scope.row.number" @change="handleChange"  label="描述文字"></el-input-number>
+                        </template>
                     </el-table-column>
+
+                    <el-table-column prop="address" width="150"  label="小计(元)">
+                         <template slot-scope="scope">
+                             <span class="item-price">
+                                <em>
+                                    <i>¥</i>
+                                </em>
+                                {{scope.row.number*scope.row.price}}
+                            </span>
+                        </template>
+                    </el-table-column>
+
+                    <el-table-column prop="address" width="100" label="操作">
+                        <template slot-scope="scope">
+                            <el-button
+                                size="mini"
+                                type="danger"
+                                @click="handleDelete(scope.$index, scope.row)">删除
+                            </el-button>
+                        </template>
+                    </el-table-column>
+
                 </el-table>
             </div>
-
-            <div class="timeandmoneyinfo">
-                <div class="timelimita">
-                    <p class="receipt">请在下单后30分钟之内完成付款，否则订单将被取消</p>
-                </div>
-
-                <div class="timelimitb receipt">
-                    小计:
-                    <span class="light">¥{{this.menudetailinfo[0].all}}</span>
-                    运费:
-                    <span class="light">¥10.00</span>
-                    店铺总计:
-                    <span class="light">¥{{this.menudetailinfo[0].all+10}}</span>
-                </div>
-            </div>
-
 
             <div class="deal-footer">
                 <div class="wrapper">
@@ -69,13 +69,13 @@
                         <span class="result">
                             <em>
                                 共计
-                                <b class="quantity">{{number}}</b>
+                                <b class="quantity">{{goodNumber}}</b>
                                 件商品
                             </em>
                             <em>
                                 应付总额:
                                 <b class="amount-real">
-                                    ¥{{this.menudetailinfo[0].all+10}}
+                                    ¥{{shouldPayNumber}}
                                 </b>
                             </em>
                         </span>
@@ -89,43 +89,103 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div>
 
         </div>
     </div>
 </template>
 <script>
 import doupinHeader from '@/components/header'
-import {getShopCar} from '@/api/shopcar'
+import {getShopCarList} from '@/api/shopcar'
+import {deleteShopcarMenu} from '@/api/shopcar'
 export default {
-    name:'rightNowBuy',
+    name:'shopcar',
     components:{
-        doupinHeader 
+        doupinHeader
     },
     data(){
         return{
-            requestUrl:'',
-            menuId:'',
-            number:undefined,
-            menudetailinfo:null
+            shopCarInfoList:undefined,
+            goodNumber:0,
+            shouldPayNumber:0,
+            multipleSelection: []//购物车中被选中的数据
         }
     },
     created(){
-         this.createdMethod();
+         this.getShopCarList();
     },
-    methods:{
-        createdMethod(){
-            this.getShopCar();
+
+     watch: {
+            shopCarInfoList: {
+                handler(newVal, oldVal){
+                    this.calulateAllMenuNumberAndTotalMoney();
+                },
+                deep: true
+            }
         },
-        getShopCar(){
-                getShopCar().then(response => {     
-            })
-        }
+    methods:{
+        getShopCarList(){
+            debugger
+            getShopCarList().then(response => {
+            console.log("I WILL ALWAYS LOVE U");
+            this.shopCarInfoList = response.data.content;
+        })
+        },
+        handleSelectionChange(val) {
+            this.multipleSelection = val;
+            this.calulateAllMenuNumberAndTotalMoney();
+        },
+        calulateAllMenuNumberAndTotalMoney(){
+            debugger;
+            let  totalNumber = 0;
+            let  totalPrice = 0;
+            for(let i=0;i<this.multipleSelection.length;i++){
+                for(let j=0;j<this.shopCarInfoList.length;j++){
+                    if(this.multipleSelection[i].id == this.shopCarInfoList[j].id){
+                        totalNumber = totalNumber+this.multipleSelection[i].number;
+                        totalPrice = totalPrice+this.multipleSelection[i].price*this.multipleSelection[i].number;
+                    }
+                }
+            }
+            this.goodNumber = totalNumber;
+            this.shouldPayNumber = totalPrice;
+        },
+        handleDelete(index, row) {
+            
+            this.$confirm('是否要删除该品牌', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+
+        }).then(() => {
+          deleteShopcarMenu(row.id).then(response => {
+            this.$message({
+              message: '删除成功',
+              type: 'success',
+              duration: 1000
+            });
+            this.getShopCarList();
+          });
+        });
+      },
     }
 }
 </script>
 <style>
+.shopCarInfo{
+    width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.textinfo{
+    text-align: left;
+}
+.item-price{
+    font-size: 14px;
+    color: #dd1944;
+    position: relative;
+    z-index: 1;
+    left: -4px;
+}
 .rightnowbuy{
     width: 1100px;
     margin-left: auto;

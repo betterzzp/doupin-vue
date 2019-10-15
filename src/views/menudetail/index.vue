@@ -1,6 +1,6 @@
 <template>
     <div>
-        <menuDetailHeader :menudetailinfo="menudetailinfo" ref="menuDetailHeader"/>
+        <menuDetailHeader :menudetailinfo="menudetailinfo" :shopCarnumber="shopCarnumber" ref="menuDetailHeader"/>
         <bannerone :menudetailinfo="menudetailinfo"/>
         <detailone :menudetailinfo="menudetailinfo" ref="detailone"/>
         <shopDialog :showShopDialog="showShopDialog"/>
@@ -14,7 +14,8 @@ import detailone from '@/components/menudetail/detail'
 import doupinFooter from '@/components/footer'
 import {shopDialog} from '@/components/shopdialog/shopdialog'
 import {getMenuDetails} from '@/api/menudetails'
-import { debug } from 'util';
+import {debug } from 'util';
+import {getShopcarNumber} from '@/api/shopcar';
 
 export default {
   name: 'index',
@@ -31,7 +32,8 @@ export default {
       menudetailinfo:null,
       requestUrl:'',
       menuId:'',
-      showShopDialog:true
+      showShopDialog:true,
+      shopCarnumber:0
     }
   },
   created() {
@@ -40,6 +42,7 @@ export default {
       let index=this.requestUrl.lastIndexOf("=");
       this.menuId=this.requestUrl.substring(index+1,this.requestUrl.length);
       this.getMenuDetails();
+      this.getShopcarNumber();
     },
     methods: {
       getMenuDetails(){
@@ -49,6 +52,12 @@ export default {
           console.log(response);
           this.menudetailinfo = response.data.content;
       })
+      },
+      getShopcarNumber(){
+        getShopcarNumber().then(response => {
+          debugger
+          this.shopCarnumber = response.data.content;
+        })
       }
   }
 }
