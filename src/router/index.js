@@ -22,7 +22,7 @@ export default new Router({
     ,
     {
       path: '/pay',
-      component: () => import('@/views/paypage/index')
+      component: () => import('@/views/pay/index')
     }
     ,
     {

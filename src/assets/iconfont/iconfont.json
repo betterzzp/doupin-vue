@@ -1,0 +1,23 @@
+{
+  "id": "1462432",
+  "name": "icons",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "5364715",
+      "name": "Plus",
+      "font_class": "plus1",
+      "unicode": "e8d4",
+      "unicode_decimal": 59604
+    },
+    {
+      "icon_id": "7230182",
+      "name": "puls",
+      "font_class": "puls",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    }
+  ]
+}
