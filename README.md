@@ -1,30 +1,16 @@
 # doupin
+豆品是参照https://market.douban.com/的一个  Spring Cloud + Vue练手项目，这是项目的C端前端部分
 
-> A Vue.js project
+接口服务: https://github.com/betterzzp/doupin
 
-## Build Setup
+后台管理前端服务: https://github.com/betterzzp/doupin_admin_vue
 
+后台管理后端服务: https://github.com/betterzzp/doupin_admin_vue
+
+## Build Setup  （需要先启动 https://github.com/betterzzp/doupin）
 ``` bash
 # install dependencies
 npm install
 
 # serve with hot reload at localhost:8080
 npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
