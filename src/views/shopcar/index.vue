@@ -124,7 +124,6 @@ export default {
         },
     methods:{
         getShopCarList(){
-            debugger
             getShopCarList().then(response => {
             console.log("I WILL ALWAYS LOVE U");
             this.shopCarInfoList = response.data.content;
@@ -135,7 +134,6 @@ export default {
             this.calulateAllMenuNumberAndTotalMoney();
         },
         calulateAllMenuNumberAndTotalMoney(){
-            debugger;
             let  totalNumber = 0;
             let  totalPrice = 0;
             for(let i=0;i<this.multipleSelection.length;i++){

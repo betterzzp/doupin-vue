@@ -24,7 +24,6 @@ import {getBanner} from '@/api/banner'
      methods: {
        getBannerInfo(){
          getBanner().then(response => {
-           debugger
            console.log(response);
            this.list = response.data.content;
         })

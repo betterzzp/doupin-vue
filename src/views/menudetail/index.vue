@@ -1,6 +1,6 @@
 <template>
     <div>
-        <menuDetailHeader :menudetailinfo="menudetailinfo" :shopCarnumber="shopCarnumber" ref="menuDetailHeader"/>
+        <menuDetailHeader v-bind:menudetailinfo="menudetailinfo" :shopCarnumber="shopCarnumber" ref="menuDetailHeader"/>
         <bannerone :menudetailinfo="menudetailinfo"/>
         <detailone :menudetailinfo="menudetailinfo" ref="detailone"/>
         <shopDialog :showShopDialog="showShopDialog"/>
@@ -16,6 +16,7 @@ import {shopDialog} from '@/components/shopdialog/shopdialog'
 import {getMenuDetails} from '@/api/menudetails'
 import {debug } from 'util';
 import {getShopcarNumber} from '@/api/shopcar';
+import loginComponent from '@/components/logincomponent/logincomponent'
 
 export default {
   name: 'index',
@@ -25,6 +26,7 @@ export default {
     detailone,
     doupinFooter,
     shopDialog,
+    loginComponent,
   },
   data () {
     return {
@@ -37,7 +39,6 @@ export default {
     }
   },
   created() {
-    debugger
       this.requestUrl = window.location.href;
       let index=this.requestUrl.lastIndexOf("=");
       this.menuId=this.requestUrl.substring(index+1,this.requestUrl.length);
@@ -46,23 +47,19 @@ export default {
     },
     methods: {
       getMenuDetails(){
-        debugger
         getMenuDetails(this.menuId).then(response => {
-          debugger
           console.log(response);
           this.menudetailinfo = response.data.content;
       })
       },
       getShopcarNumber(){
         getShopcarNumber().then(response => {
-          debugger
           this.shopCarnumber = response.data.content;
         })
       }
   }
 }
 </script>
-
 <style scoped>
 .homepage{
     margin-top: 1px

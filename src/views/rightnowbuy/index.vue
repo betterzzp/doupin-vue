@@ -2,9 +2,17 @@
     <div>
         <div>
             <doupinHeader/>
+            <logincomponent v-bind:logindialogVisible="logindialogVisible"/>
         </div>
         <div class="hd  incenter">
             确认订单信息
+        </div>
+
+        <div v-show="!showLogin" class="addresscomponent">
+            <div class="getGoodsPersonInfo">
+                收货人信息
+            </div>
+             <addressComponent/>
         </div>
 
         <div class="section">
@@ -79,37 +87,48 @@
                                 </b>
                             </em>
                         </span>
-                        <button v-show="false" type="button"  class="mui-button disabled l default">
+                        <button v-show="showLogin"   @click="logindialogVisible = true" v-bind:class="showLoginClasss">
                             请先登录/注册
                         </button>
-                        <button v-show="false"  type="button"  class="mui-button disabled l default">
+                        <button v-show="showAddress"  type="button"  class="mui-button disabled l default">
                             请填写地址
                         </button>
-                        <el-button type="danger"  class="mui-button red l default" >去支付</el-button>
+                        <el-button v-show="showPay"  @click="goToPayPage" class="mui-button red l default" >去支付</el-button>
                     </div>
                 </div>
             </div>
         </div>
-        
         <div>
-
         </div>
     </div>
 </template>
 <script>
 import doupinHeader from '@/components/header'
 import {getMenuDetails} from '@/api/menudetails'
+import {setToken,getToken} from '@/util/auth'
+import {getUserAddress} from '@/api/address'
+import loginComponent from '@/components/logincomponent/logincomponent'
+import  addressComponent from '@/components/address/address'
 export default {
     name:'rightNowBuy',
     components:{
-        doupinHeader 
+        doupinHeader,
+        loginComponent,
+        addressComponent,
     },
     data(){
         return{
+            showLogin:false,
+            showAddress:false,
+            showPay:false,
             requestUrl:'',
             menuId:'',
             number:undefined,
-            menudetailinfo:null
+            showLoginClasss:'',
+            showPayClass:'',
+            showAddressClass:'',
+            menudetailinfo:null,
+            logindialogVisible:false,
         }
     },
     created(){
@@ -118,7 +137,6 @@ export default {
     methods:{
         createdMethod(){
             //http://localhost:8050/deal?id=1c2b680940b54fedb14c84b66d5ed561&number=2
-            debugger;
             this.requestUrl = window.location.href;
             let index1 = this.requestUrl.indexOf('=',0);
             let index2=this.requestUrl.indexOf('&');
@@ -127,15 +145,42 @@ export default {
             let index3 = this.requestUrl.lastIndexOf('=');
             this.number =  this.requestUrl.substring(index3+1,this.requestUrl.length);
             this.getMenuDetails();
+            
+            var loginToken = getToken();
+            if(loginToken == null || loginToken == undefined || loginToken == ''){
+                 this.showLogin = true;
+                 this.showAddress = false;
+                 this.showPay = false;
+                this.showLoginClasss = 'mui-button disabled l default';
+            }else{
+                //已经登录，去检查是否有收货地址
+                getUserAddress().then(response =>{
+                    if(response.data.content.length>0){
+                        this.showLogin = false;
+                         this.showAddress = false;
+                         this.showPay = true;
+                    }else{
+                         this.showLogin = false;
+                         this.showAddress = true;
+                         this.showPay = false;
+                    }
+                });
+                this.showPay = true;
+            }
         },
         getMenuDetails(){
                 getMenuDetails(this.menuId).then(response => {
-                debugger
                 console.log(response);
                 this.menudetailinfo = response.data.content;
                 this.menudetailinfo[0].number = this.number;
                 this.menudetailinfo[0].all = this.number*this.menudetailinfo[0].price;
             })
+        },
+        goToLogin(){
+            this.logindialogVisible = true;
+        },
+        goToPayPage(){
+            console.log("I WILL ALWAYS LOVE U");
         }
     }
 }
@@ -153,7 +198,8 @@ export default {
     float: right;
 }
 .timeandmoneyinfo{
-    margin-top: 100px;
+    margin-top: 50px;
+    height: 150px;
 }
 .receipt {
     color: #6e6e6e;
@@ -161,8 +207,13 @@ export default {
 .light {
     color: #dd1944;
 }
+.addresscomponent{
+    width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+}
 .deal-footer {
-    background-color: #9588881f;
+    background-color: #f9f9f9;
     margin-bottom: 0;
     padding-bottom: 0;
     position: fixed;
@@ -241,5 +292,9 @@ export default {
 .mui-button.red, a.mui-button.red, button.mui-button.red {
     background-color: #dd1944;
     color: #fff;
+}
+.getGoodsPersonInfo{
+    text-align: left;
+    margin-bottom: 20px;
 }
 </style>

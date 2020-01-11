@@ -47,8 +47,6 @@ import { debug } from 'util';
      methods: {
        getBannerInfo(){
          getGoods().then(response => {
-           debugger
-           debugger
            console.log(response);
            this.list = response.data.content;
         })

@@ -23,11 +23,18 @@ export default new Router({
     {
       path: '/pay',
       component: () => import('@/views/pay/index')
-    }
-    ,
+    },
+    {
+      path: '/payment',
+      component: () => import('@/views/payment/index')
+    },
     {
       path: '/shopcar',
       component: () => import('@/views/shopcar/index')
+    },
+    {
+      path: '/address',
+      component: () => import('@/components/address/address')
     }
   ]
 })

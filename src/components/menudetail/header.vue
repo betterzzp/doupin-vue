@@ -1,5 +1,8 @@
 <template>
     <header id="market-header" class="market-global-header">
+    <div>
+        <logincomponent v-bind:logindialogVisible="logindialogVisible"/>
+    </div>
     <div class="header-inner">
         <div class="logo">
             <div>
@@ -94,13 +97,18 @@
 import {sendMsg,loginwithPassword,loginwithValidate} from '@/api/header'
 import {setToken,getToken} from '@/util/auth'
 import {addToShopCar} from '@/api/shopcar'
+import logincomponent from '@/components/logincomponent/logincomponent'
 export default {
   name: 'doupinHeader',
+  components:{
+      logincomponent
+  },
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
       dialogVisible: false,
       activeName: 'first',
+      logindialogVisible: false,
       token:null,
       show:true,
       num1: 1,
@@ -116,7 +124,7 @@ export default {
       }
     }
   },
-  props:["menudetailinfo","shopCarnumber"],
+    props:["menudetailinfo","shopCarnumber"] ,
 created(){
     var loginToken = getToken()
     if(loginToken!=null&&loginToken!=''){
@@ -194,12 +202,17 @@ watch: {
         })
       },
       addToShopCar(){
+          //判断是否登录
+          var Token = getToken();
+          if(Token == null || Token == "" || Token ==undefined ){
+             this.logindialogVisible = true
+             return 
+          }
           let param = 
               {'goodId':this.menudetailinfo[0].id,
               'number':this.num1};
           addToShopCar(param).then(response => {
             if(response.data.code == "200"){
-                debugger;
                 this.shopCarnumber = this.shopCarnumber+this.num1;
                 this.$notify({
                 title: '成功',
