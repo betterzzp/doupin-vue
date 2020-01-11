@@ -1,4 +1,4 @@
-# doupin
+# doupin 豆品
 豆品是参照https://market.douban.com/的一个  Spring Cloud + Vue练手项目，这是项目的C端前端部分
 
 接口服务: https://github.com/betterzzp/doupin
@@ -11,6 +11,8 @@
 ``` bash
 # install dependencies
 npm install
+
+#在配置文件中配置好接口服务地址
 
 # serve with hot reload at localhost:8080
 npm run dev
