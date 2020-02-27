@@ -24,3 +24,12 @@ export function logout() {
     method: 'post'
   })
 }
+
+
+export function registory(user) {
+  return request({
+    url: '/user/registory',
+    method: 'post',
+    data:user
+  })
+}

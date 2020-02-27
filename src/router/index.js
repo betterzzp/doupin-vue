@@ -35,6 +35,10 @@ export default new Router({
     {
       path: '/address',
       component: () => import('@/components/address/address')
+    },
+    {
+      path: '/registory',
+      component: () => import('@/views/registory/index')
     }
   ]
 })

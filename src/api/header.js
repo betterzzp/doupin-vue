@@ -8,7 +8,7 @@ export function sendMsg(params) {
 
 export function loginwithPassword (params) {
     return request({
-        url:'/user/login/loginwithphonenumber',
+        url:'/user/login/loginwithPassword',
         contentT:"",
         method:'post',
         data:params

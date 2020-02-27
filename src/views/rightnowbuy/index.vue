@@ -182,7 +182,12 @@ export default {
             this.logindialogVisible = true;
         },
         goToPayPage(){
-            payBill().then(response =>{
+            let param = {
+                "menuId":this.menuId,
+                "number":this.number,
+                "payamount":this.menudetailinfo[0].all+10
+            }
+            payBill(param).then(response =>{
                 console.log("Hello World");
                 debugger;
                 const div=document.createElement('divform');

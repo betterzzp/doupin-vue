@@ -120,6 +120,7 @@ watch: {
         })
       },
       loginwithPassword(){
+          debugger
           loginwithPassword(this.phonenumberLogin).then(response => {
                if(response.data.code == "200"){
                     this.token = response.data.content;
@@ -133,15 +134,26 @@ watch: {
         })
       },
       loginwithValidate(){
+          debugger
+          console.log("I WILL ALWAYS LOVE U");
           loginwithValidate(this.phonenumberLogin).then(response => {
+               debugger
                if(response.data.code == "200"){
                     this.token = response.data.content;
                     setToken(this.token);
                     this.show = false;
                     console.log("HELLO WORLD");
                     this.dialogVisible = false;
-               }else{
-
+               }else if(response.data.code == "204"){
+                    console.log("验证码已经过期");
+               }else if(response.data.code == "205"){
+                   debugger
+                    this.$notify.error({
+                        title: '',
+                        message: '验证码错误'
+                    });
+               }else if(response.data.code == "201"){
+                    console.log("请完成注册信息"); 
                }
         })
       }

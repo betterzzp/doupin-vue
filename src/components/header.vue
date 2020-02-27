@@ -78,13 +78,13 @@
             <el-tab-pane  label="密码登录" name="second">
                 <div class="account-form-raw">
                     <div class="account-form-field">
-                    <input id="username" name="username" type="text" class="account-form-input"  v-model="phonenumberLogin.phoneNumber" placeholder="手机号" tabindex="1">
+                    <input id="username" name="username" type="text" class="account-form-input"  v-model="phonenumberLogin.phoneNumber" placeholder="用户名" tabindex="1">
                     <span class="icon clear-input hide"></span>
                     </div>
                 </div>
                 <div class="account-form-raw">
                     <div class="account-form-field account-form-codes">
-                    <input id="code" type="text" name="code" maxlength="6" class="account-form-input"  v-model="phonenumberLogin.password" placeholder="密码" tabindex="2" autocomplete="off">
+                    <input id="code" type="text" name="code" maxlength="16" class="account-form-input"  v-model="phonenumberLogin.password" placeholder="密码" tabindex="2" autocomplete="off">
                     <div class="account-form-field-code">
                         <a href="javascript:;"></a>
                     </div>
@@ -167,7 +167,11 @@ watch: {
                     console.log("HELLO WORLD");
                     this.dialogVisible = false;
                }else{
-
+                   this.$notify.error({
+                        title: '',
+                        message: '用户名或密码错误',
+                        duration: 0
+                    });
                }
         })
       },
@@ -179,8 +183,25 @@ watch: {
                     this.show = false;
                     console.log("HELLO WORLD");
                     this.dialogVisible = false;
-               }else{
-
+               }else if(response.data.code == "204"){
+                    console.log("验证码已经过期");
+                    this.$notify.error({
+                        title: '',
+                        message: '验证码已经过期'
+                    });
+               }else if(response.data.code == "205"){
+                    debugger
+                    this.$notify.error({
+                        title: '',
+                        message: '验证码错误'
+                    });
+               }else if(response.data.code == "210"){
+                    this.$notify.error({
+                        title: '',
+                        message: '请完成注册信息',
+                        duration: 0
+                    });
+                    this.$router.push({path: '/registory?phoneNumber='+this.phonenumberLogin.phoneNumber})
                }
         })
       }
