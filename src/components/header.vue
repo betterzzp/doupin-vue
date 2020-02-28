@@ -15,7 +15,7 @@
                                 <el-dropdown-menu slot="dropdown">
 
                                 <el-dropdown-item>
-                                    <a href="">我的豆品订单</a>
+                                    <a href="/order">我的豆品订单</a>
                                 </el-dropdown-item>
 
                                 <el-dropdown-item>
@@ -49,7 +49,7 @@
     <div class = "tab-start">
         <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane  label="短信登录/注册" name="first">
-                <div class="account-form-tips">请仔细阅读 
+                <div class="account-form-tips">请仔细阅读
                     <a target="_blank" href="https://accounts.douban.com/passport/agreement">豆瓣使用协议、隐私政策</a>
                 </div>
                 <div class="account-form-raw  phoneNumber" :v-model="phonenumberLogin">

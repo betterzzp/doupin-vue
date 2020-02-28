@@ -3,7 +3,7 @@
         <el-form-item label="用户名字" prop="username">
             <el-input v-model="user.username"></el-input>
         </el-form-item>
-        
+
         <el-form-item label="密码" prop="password ">
             <el-input type="password" v-model="user.password" autocomplete="off"></el-input>
         </el-form-item>
@@ -19,7 +19,7 @@
         <el-form-item label="邮箱" prop="email">
             <el-input v-model="user.email"></el-input>
         </el-form-item>
-        
+
         <el-form-item>
             <el-button type="primary" @click="submitForm('user')">提交</el-button>
             <el-button @click="resetForm('user')">重置</el-button>
@@ -79,12 +79,27 @@ import { registory } from '@/api/login';
           debugger
           if (valid) {
             registory(this.user).then(response => {
-                this.$notify({
+              debugger
+                if(response.data.code == '10003'){
+                  this.$notify.error({
+                    title: '失败',
+                    message: '用户名已经被占用',
+                    type: 'success'
+                  });
+                }else if(response.data.code == '10002'){
+                  this.$notify.Error({
+                    title: '失败',
+                    message: '手机号已经注册',
+                    type: 'success'
+                  });
+                }else{
+                  this.$notify({
                     title: '成功',
                     message: '注册成功,请重新登录',
                     type: 'success'
-                });
-                this.$router.push({path: '/'})
+                  });
+                  this.$router.push({path: '/'})
+                }
             })
           } else {
             console.log('error submit!!');

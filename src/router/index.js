@@ -40,5 +40,10 @@ export default new Router({
       path: '/registory',
       component: () => import('@/views/registory/index')
     }
+    ,
+    {
+      path: '/order',
+      component: () => import('@/views/doupinorder/index')
+    }
   ]
 })
