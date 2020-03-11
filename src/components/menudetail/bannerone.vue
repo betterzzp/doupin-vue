@@ -29,7 +29,7 @@ export default {
   props:["menudetailinfo"], 
 }
 </script>
-<style>
+<style scoped>
 .hero {
     position: relative;
     z-index: 1;

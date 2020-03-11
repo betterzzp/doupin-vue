@@ -7,3 +7,10 @@ export function payBill(param) {
         data:param
     })
 }
+export function getPayOrders(param) {
+    return request({
+        url:'/pay/get/user/order',
+        method:'post',
+        data:param
+    })
+}

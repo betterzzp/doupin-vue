@@ -423,4 +423,8 @@ font-size: 12px;
 .el-tabs__item.is-active {
     color: #333;
 }
+
+.el-dialog__header {
+    padding: -1px 20px 10px;
+}
 </style>

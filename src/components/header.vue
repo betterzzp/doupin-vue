@@ -10,21 +10,23 @@
                     <div>
                         <i>
                             <div class="user-pic" id="header-user-pic">
-                                <img src="https://img3.doubanio.com/icon/user_large.jpg">
+                                <img src="http://zhouzhongping.cn/bo.jpg">
                                 <span>个人中心</span>
                                 <el-dropdown-menu slot="dropdown">
 
-                                <el-dropdown-item>
-                                    <a href="/order">我的豆品订单</a>
-                                </el-dropdown-item>
+                                    <el-dropdown-item>
+                                        <a href="/order">我的豆品订单</a>
+                                    </el-dropdown-item>
 
-                                <el-dropdown-item>
-                                    <a href="/shopcar">我的购物车</a>
-                                </el-dropdown-item>
-                
-                                <el-dropdown-item>
-                                    <a href="">收货地址管理</a>
-                                </el-dropdown-item>
+                                    <el-dropdown-item>
+                                        <a href="/myshopcar">我的购物车</a>
+                                    </el-dropdown-item>
+
+                                    <el-dropdown-item>
+                                        <a @click="signout">退出</a>
+                                    </el-dropdown-item>
+
+                                    
                                 </el-dropdown-menu>
                             </div>
                         </i>
@@ -44,6 +46,7 @@
     :close-on-click-modal=false
     :visible.sync="dialogVisible"
     width="340px"
+    top="10vh"
     :append-to-body=true
     :before-close="handleClose">
     <div class = "tab-start">
@@ -103,7 +106,7 @@
 </template>
 <script>
 import {sendMsg,loginwithPassword,loginwithValidate} from '@/api/header'
-import {setToken,getToken} from '@/util/auth'
+import {setToken,getToken,removeToken} from '@/util/auth'
 export default {
   name: 'doupinHeader',
   data () {
@@ -150,6 +153,15 @@ watch: {
   methods:{
       login(){
           this.dialogVisible=true;
+      },
+      signout(){
+          removeToken();
+          var router = this.$route.path;
+          if("/" == router){
+               location.reload();
+          }else{
+               this.$router.push({path: '/'});
+          }
       },
       sendMessage(){
           console.log("I WILL ALWAYS LOVE U");
@@ -208,7 +220,14 @@ watch: {
   }
 }
 </script>
+
 <style>
+.el-dialog__header {
+    padding: 0px 20px 20px 10px;
+}
+</style>
+
+<style scoped>
 #dialog{
     transform-origin: center top; z-index: 2015; position: absolute; top: 80px; left: 1220px;
 }
@@ -470,5 +489,8 @@ font-size: 12px;
 }
 .el-tabs__item.is-active {
     color: #333;
+}
+.el-dialog__body {
+    padding: 10px 20px 30px 10px;
 }
 </style>

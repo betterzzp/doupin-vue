@@ -46,7 +46,7 @@ export default {
   props:["menudetailinfo"]  
 }
 </script>
-<style>
+<style scoped>
 .content-wrapper {
     /*width: 1100px;*/
     margin: 0 auto;

@@ -29,7 +29,7 @@ export default new Router({
       component: () => import('@/views/payment/index')
     },
     {
-      path: '/shopcar',
+      path: '/myshopcar',
       component: () => import('@/views/shopcar/index')
     },
     {

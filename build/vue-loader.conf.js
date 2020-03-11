@@ -18,5 +18,7 @@ module.exports = {
     source: 'src',
     img: 'src',
     image: 'xlink:href'
-  }
+  },
+  css: {extract:false,
+    sourceMap:false}
 }

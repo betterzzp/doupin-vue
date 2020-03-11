@@ -11,15 +11,12 @@
             </div>
             <div class="shopCarInfo">
                 <el-table ref="multipleTable" :data="shopCarInfoList" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
-                    <el-table-column type="selection" width="55">
-                    </el-table-column>
-
                     <el-table-column label="商品名称" width="190">
-                        <template slot-scope="scope">{{ scope.row.goodName }}</template>
+                        <template slot-scope="scope">{{ scope.row.name }}</template>
                     </el-table-column>
 
                     <el-table-column  label="商品图片"  width="200">
-                        <template slot-scope="scope"><img style="height:100px" :src="scope.row.goodPic"></template>
+                        <template slot-scope="scope"><img style="height:100px" :src="scope.row.pic"></template>
                     </el-table-column>
 
                     <el-table-column  label="单价" style="text-align:center" width="150">
@@ -34,8 +31,8 @@
                     </el-table-column>
 
                     <el-table-column label="商品数量" style="text-align:center" width="250">
-                        <template slot-scope="scope">
-                            <el-input-number v-model="scope.row.number" @change="handleChange"  label="描述文字"></el-input-number>
+                         <template slot-scope="scope">
+                            {{scope.row.goodsNumber}}
                         </template>
                     </el-table-column>
 
@@ -45,7 +42,7 @@
                                 <em>
                                     <i>¥</i>
                                 </em>
-                                {{scope.row.number*scope.row.price}}
+                                {{scope.row.total}}
                             </span>
                         </template>
                     </el-table-column>
@@ -67,8 +64,8 @@
 </template>
 <script>
 import doupinHeader from '@/components/header'
-import {getShopCarList} from '@/api/shopcar'
 import {deleteShopcarMenu} from '@/api/shopcar'
+import {getPayOrders} from '@/api/pay'
 export default {
     name:'shopcar',
     components:{
@@ -83,7 +80,7 @@ export default {
         }
     },
     created(){
-         this.getShopCarList();
+         this.getPayOrders();
     },
 
      watch: {
@@ -95,8 +92,8 @@ export default {
             }
         },
     methods:{
-        getShopCarList(){
-            getShopCarList().then(response => {
+        getPayOrders(){
+            getPayOrders().then(response => {
             console.log("I WILL ALWAYS LOVE U");
             this.shopCarInfoList = response.data.content;
         })
@@ -133,7 +130,7 @@ export default {
               type: 'success',
               duration: 1000
             });
-            this.getShopCarList();
+            this.getPayOrders();
           });
         });
          */
