@@ -15,8 +15,6 @@
 
         <div class="product-image-divide">
         </div>
-
-        <div name="reviews" class="product-image-wrap product-review-title"><img src="http://img1.doubanio.com/view/treasury_image/raw/public/32309fbad02829f.jpg" class="product-image"></div>
         
         <div class="product-noreview-wrapper"><img src="https://img3.doubanio.com/img/files/file-1563961143-0.png"><div>产品测评收集中</div></div>
         
